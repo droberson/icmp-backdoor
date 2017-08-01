@@ -13,8 +13,11 @@ reverse shell to a specified host and port.
 
 # Building
 
-Just use _make_. This has currently been tested only on Linux. Will
-test on BSD, macOS and others soon:
+First, you should edit icmp-backdoor.c. In particular, change the
+MAGIC1, MAGIC2, and PROGNAME macros to values that suit your needs.
+
+Next, just use _make_. This has currently been tested only on
+Linux. Will test on BSD, macOS and others soon:
 
 	$ make
 	
