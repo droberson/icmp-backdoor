@@ -1,7 +1,5 @@
 TODO list!
 
-- Make it easier to specify/change magic bytes
-- Make it easier to specify the fake program name
 - Option to change parent process name to hide its presence
 - ELFcrypt/ELFparasite to hide this better and create persistence
 - Test on other platforms: BSD, Mac, etc.
