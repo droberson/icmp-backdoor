@@ -11,7 +11,21 @@ The concept behind this tool is that it listens for specially crafted
 ICMP packets, and if they match a certain criteria, it will spawn a
 reverse shell to a specified host and port.
 
+# Building
+
+Just use _make_. This has currently been tested only on Linux. Will
+test on BSD, macOS and others soon:
+
+	$ make
+	
+If you don't have _make_ or if _gcc_ isn't your thing:
+
+	$ clang -o icmp-backdoor icmp-backdoor.c
+
 # Usage
+
+Since this uses SOCK_RAW, you must run this as root or otherwise have
+the ability to open raw sockets as the user that initially runs this.
 
 Prism uses its own tool to send the packets. I opted for a "live off
 the land" approach and use the commonly-available _ping_ utility with
