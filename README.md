@@ -27,7 +27,7 @@ In the above example:
 
 	IP: 0a0a0017 is 10.10.0.23
 	Port: 1000 is 4096
-        Magic is 2a7a, which is hard-coded into this program.
+	Magic is 2a7a, which is hard-coded into this program.
 
 This will open a reverse shell from the victim machine to 10.10.0.23:4096.
 
