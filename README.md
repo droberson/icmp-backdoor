@@ -50,6 +50,3 @@ This will open a reverse shell from the victim machine to 10.10.0.23:4096.
 The magic bytes are there for alignment purposes when using the -p
 flag with ping and as a mechanism to determine if a shell should be
 opened when an ICMP packet is received.
-
-
-
