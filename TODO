@@ -1,6 +1,5 @@
 TODO list!
 
-- Option to change parent process name to hide its presence
 - ELFcrypt/ELFparasite to hide this better and create persistence
 - Test on other platforms: BSD, Mac, etc.
 - Use ip and icmp structures rather than referencing byte positions in packets
