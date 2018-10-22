@@ -39,8 +39,9 @@ the -p flag:
 The format for the pattern is: IIIIIIIIPPPPMMMM where I is IP address,
 P is port, and M is magic bytes. This is represented as hexadecimal,
 so you will either have to be a weirdo like me and be able to
-calculate this in your head or use a calculator. I will add a shell
-script to leverage this in the next few days.
+calculate this in your head or use a calculator.
+
+See the included _calc.py_ for a handy calculator for this.
 
 In the above example:
 
