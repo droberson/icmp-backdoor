@@ -15,7 +15,7 @@ import socket
 try:
     ip_address = sys.argv[1]
     port = sys.argv[2]
-    magic = "2a7a" if len(sys.argv) != 4 else sys.argv[3]
+    magic = "2a7e" if len(sys.argv) != 4 else sys.argv[3]
 except IndexError:
     print("usage: %s <ip address> <port> [magic]")
     exit(os.EX_USAGE)
