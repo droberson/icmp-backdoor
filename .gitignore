@@ -1,2 +1,5 @@
 icmp-backdoor
+icmp-backdoor-musl
+icmp-backdoor-musl-crypted
+ELFcrypt
 
