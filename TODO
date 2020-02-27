@@ -1,6 +1,6 @@
 TODO list!
 
-- ELFcrypt/ELFparasite to hide this better and create persistence
+- Windows!
 - Test on other platforms: BSD, Mac, etc.
-- Use ip and icmp structures rather than referencing byte positions in packets
+- Handle connect() timeouts
 
